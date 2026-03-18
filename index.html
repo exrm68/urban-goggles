@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000000" />
+    <title>Cineflix</title>
+
+    <!-- ✅ Suppress Telegram CloudStorage warning for old versions -->
+    <script>
+      (function() {
+        const ow = console.warn;
+        console.warn = function() {
+          if (arguments[0] && typeof arguments[0] === 'string' && arguments[0].includes('CloudStorage')) return;
+          ow.apply(console, arguments);
+        };
+      })();
+    </script>
+
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- ✅ Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ✅ Fonts: preconnect first, then load (non-blocking) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- ✅ Only load weights we actually USE — removed unused weights -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Bebas+Neue&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              gold: '#FFD700',
+              gold2: '#FFC107',
+              card: '#111114',
+              surface: '#16161a',
+            },
+            fontFamily: {
+              sans: ['DM Sans', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+              brand: ['Bebas Neue', 'sans-serif'],
+            },
+            animation: {
+              'pulse-gold': 'pulseGold 2s infinite',
+            },
+            keyframes: {
+              pulseGold: {
+                '0%, 100%': { opacity: 1 },
+                '50%': { opacity: .6 },
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      * { box-sizing: border-box; }
+
+      html, body {
+        background-color: #0d0d10;
+        color: #fff;
+        /* ✅ GPU-accelerated scrolling — lag কমায় */
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+        -webkit-tap-highlight-color: transparent;
+        font-family: 'DM Sans', sans-serif;
+        /* ✅ Prevent overscroll bounce lag on iOS */
+        overscroll-behavior: none;
+      }
+
+      body {
+        background-image:
+          radial-gradient(ellipse at 20% 0%, rgba(255,215,0,0.04) 0%, transparent 60%),
+          radial-gradient(ellipse at 80% 100%, rgba(120,80,255,0.04) 0%, transparent 60%);
+      }
+
+      #root {
+        min-height: 100vh;
+        background: transparent;
+        /* ✅ GPU layer — smoother animations */
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+      }
+
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* ✅ Card press effect — CSS only (no JS needed) */
+      .card-lift {
+        transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
+        /* ✅ will-change — browser কে আগে থেকে জানায়, lag কমায় */
+        will-change: transform;
+      }
+      .card-lift:active {
+        transform: scale(0.96) translateY(1px);
+        box-shadow: 0 2px 20px rgba(0,0,0,0.6);
+      }
+
+      /* ✅ Image rendering optimization */
+      img {
+        image-rendering: -webkit-optimize-contrast;
+      }
+
+      h1, h2, h3, h4 {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      /* ✅ Scrollbar hidden globally */
+      ::-webkit-scrollbar { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
